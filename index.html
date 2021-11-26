@@ -308,7 +308,7 @@
 						focus_id+=1;
 				}
 				else if(keycode===81){	// key='Q'
-					copyToOther();
+					focus_id = copyToOther();
 				}
 				else if(keycode===83){	// key='S'
 					savePointtoJson();
@@ -369,22 +369,36 @@
 			}
 
 			function copyToOther() {
+				let newFocus = focus_id;
 				if(focus_id/4 < 1){		// up, down
-					if(focus_id%2===1)
+					if(focus_id%2===1){
 						eye_rotations[model_id][focus_id-1] = eye_rotations[model_id][focus_id];
-					else
+						newFocus = focus_id-1;
+					}
+					else{
 						eye_rotations[model_id][focus_id+1] = eye_rotations[model_id][focus_id];
+						newFocus = focus_id+1;	
+					}
 				}
 				else{		// right, left
-					if(focus_id===4)
+					if(focus_id===4){
 						eye_rotations[model_id][7] = -eye_rotations[model_id][4];
-					else if(focus_id===5)
+						newFocus = 7;
+					}
+					else if(focus_id===5){
 						eye_rotations[model_id][6] = -eye_rotations[model_id][5];
-					else if(focus_id===6)
+						newFocus = 6;
+					}
+					else if(focus_id===6){
 						eye_rotations[model_id][5] = -eye_rotations[model_id][6];
-					else if(focus_id===5)
+						newFocus = 5;
+					}
+					else if(focus_id===7){
 						eye_rotations[model_id][4] = -eye_rotations[model_id][7];
+						newFocus = 4;
+					}
 				}
+				return  newFocus
 			}
 
 			function savePointtoJson() {
@@ -503,6 +517,7 @@
 			render();
 
 		}
+
 		function moveMainLine(){
 			let i = focus_id%2;
 			if(i===1){	//right eye
